@@ -1,0 +1,30 @@
+name: Firebase Hosting Deployment
+
+on:
+  push:
+    branches:
+      - main  # Trigger deployment on push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - run: npm install  # Install dependencies (if applicable)
+
+      - run: npm run build  # Build your React app (if needed)
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          firebase_project_id: ${{ secrets.FIREBASE_PROJECT_ID }}
+          firebase_token: ${{ secrets.FIREBASE_AUTH_TOKEN }}
+          firebase_service_account_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
